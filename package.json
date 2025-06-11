@@ -3,24 +3,37 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@reduxjs/toolkit": "^2.6.0",
+    "axios": "^1.8.1",
+    "concurrently": "^9.1.2",
     "joi": "^17.13.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.57.0",
+    "react-hot-toast": "^2.5.2",
+    "react-icons": "^5.4.0",
+    "react-otp-input": "^3.1.1",
+    "react-redux": "^9.2.0",
+    "react-router-dom": "^7.1.5",
     "react-scripts": "^5.0.1",
+    "react-type-animation": "^3.2.0",
+    "redux-toolkit": "^1.1.2",
     "web-vitals": "^2.1.4"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/thepranaygupta/react-tailwind-css-starter-pack.git"
   },
-  "author": "Pranay Gupta",
+  "author": "Awanish Verma",
   "bugs": {
     "url": "https://github.com/thepranaygupta/react-tailwind-css-starter-pack/issues"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "cd server && npm run dev",
+    "dev": "concurrently -n \"client,server\" -c \"bgBlue,bgYellow\" \"npm start\" \"npm run server\""
   },
   "eslintConfig": {
     "extends": [
