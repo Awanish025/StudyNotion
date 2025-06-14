@@ -1,13 +1,22 @@
 import React from "react";
 import ContactUsForm from "../../../common/ContactUsForm";
 
-const FormSection =()=>{
-    return (
-        <div className=" flex flex-col mx-auto items-center mb-10 ">
-           <h1 className=" text-richblack-5 text-4xl font-bold" >Get in Touch</h1>
-           <p className=" text-richblack-500">We'd love to here for you, Please fill out this form.</p>
-           <div><ContactUsForm/></div>
-        </div>
-    )
-}
-export default FormSection
+const FormSection = () => {
+  return (
+    <div className="mx-auto mt-20 w-11/12 max-w-maxContent flex flex-col items-center gap-6 text-white">
+      {/* Centered text container only */}
+      <div className="text-center  ">
+        <h1 className="text-4xl font-bold text-richblack-5">Get in Touch</h1>
+        <p className="max-w-[600px] text-richblack-300">
+          We'd love to hear from you. Please fill out the form below and our team will get back to you as soon as possible.
+        </p>
+      </div>
+
+      {/* Form will have its own alignment */}
+      <ContactUsForm />
+    </div>
+  );
+};
+
+export default FormSection;
+

@@ -89,8 +89,8 @@ const About =()=>{
           </section>
 
           {/* section 5 */}
-
-          <section className="flex flex-col items-center mx-auto gap-5">
+             {/* flex flex-col items-center  mx-auto gap-5 */}
+          <section className="mx-auto mt-20 flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-10 text-white">
             <LearningSection/>
             <FormSection/>
           </section>

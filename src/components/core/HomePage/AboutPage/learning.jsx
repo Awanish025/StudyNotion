@@ -43,9 +43,10 @@ const LearningGridArray = [
   ];
 
 const LearningSection =()=>{
-    return (
-        <div className="w-11/12 max-w-maxContent flex flex-col justify-between mx-auto mt-20  ">
-        <div className="grid grid-cols-1 lg:grid-cols-4  mb-10   ">
+    return ( 
+      // grid mx-auto w-[350px] xl:w-fit grid-cols-1 xl:grid-cols-4 mb-12
+        // <div className="w-11/12 max-w-maxContent flex flex-col items-center justify-between mx-auto mt-20  ">
+        <div className="grid grid-cols-1 lg:grid-cols-4  w-[350px] xl:w-fit mb-12   ">
             {
                LearningGridArray.map( (card,ind)=>{
                 return (
@@ -96,7 +97,7 @@ const LearningSection =()=>{
             }
             
         </div>
-        </div>
+        // </div>
     )
 }
 export default LearningSection;
