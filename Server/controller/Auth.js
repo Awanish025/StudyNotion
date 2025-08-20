@@ -23,7 +23,7 @@
 
         if(ceheckUser){
             return res.status(401).json({
-                sucess:false,
+                success:false,
                 message: 'user already exist',
             })
             

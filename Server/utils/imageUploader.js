@@ -9,7 +9,7 @@
         if(quality){
             options.quality=quality;
         }
-        options.resourse_type="auto";
+        options.resource_type = "auto";
         return await cloudinary.uploader.upload(File.tempFilePath , options);
     }catch(error){
           console.log(error);

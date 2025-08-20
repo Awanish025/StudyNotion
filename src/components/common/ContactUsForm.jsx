@@ -58,7 +58,7 @@ const ContactUsForm =()=>{
           }
 
     return (
-        <div className="mt-10 mx-auto w-full max-w-[720px] px-4">
+        <div className=" mx-auto w-full   max-w-maxContent px-4">
         <form
           onSubmit={handleSubmit(submitHandeler)}
           className="flex flex-col gap-6 bg-richblack-900 p-6 rounded-md shadow-md"

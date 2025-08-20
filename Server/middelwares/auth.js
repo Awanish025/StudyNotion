@@ -4,12 +4,21 @@ const User = require("../models/user");
 
 // auth
 exports.auth = async (req, res, next) => {
+  const authHeader = req.header("Authorization");
+   console.log("Authorization header:", req.header("Authorization"));
+   console.log("Authorization header:", authHeader);
   try {
     // extract token
     const token =
       req.cookies.token ||
       req.body.token ||
-      req.header("Authorization").replace("Bearer", "");
+      (authHeader && authHeader.startsWith("Bearer ")
+    ? authHeader.split(" ")[1]
+    : undefined);
+
+    // const token = req.cookies.token 
+    //                     || req.body.token 
+    //                     || req.header("Authorization").replace("Bearer ", "");
 
     if (!token) {
       return res.status(401).json({

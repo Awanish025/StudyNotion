@@ -135,7 +135,7 @@ export function login(email,password,navigate){
                 ? user.image
                 : `https://api.dicebear.com/5.x/initials/svg?seed=${user?.firstName || "User"} ${user?.lastName || ""}`;
         
-            dispatch(setuser({ ...user, image: userImg }));
+            dispatch(setuser({ ...response.data.User, image: userImg }));
         
             localStorage.setItem("user", JSON.stringify(user)); 
             localStorage.setItem("token", JSON.stringify(response.data.token));
