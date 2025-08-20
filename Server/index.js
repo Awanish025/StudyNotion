@@ -28,12 +28,15 @@ database.connect();
 app.use(express.json());
 app.use(cookieParser());
 app.use(
-    cors({
-        origin:"http://localhost:3000",
-        credentials: true,   // Allow cookies/auth headers
-        //If your frontend makes requests with credentials (cookies, authentication tokens), update your CORS settings like this:
-    })
-)
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://studynotion-8a1a.onrender.com"
+    ],
+    credentials: true,
+  })
+);
+
 
 app.use(
     fileUpload({
