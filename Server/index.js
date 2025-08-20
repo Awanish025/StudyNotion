@@ -31,7 +31,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://studynotion-8a1a.onrender.com"
+      "https://study-notion-yoj3-gilt.vercel.app"
     ],
     credentials: true,
   })
