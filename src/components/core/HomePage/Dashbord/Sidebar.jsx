@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { VscSignOut } from "react-icons/vsc";
 import ConfirmationModal from "../../../common/ConfirmmationModal";
 
-const Sidebar = () => {
+const Sidebar = () => {         
     const { loading: authloading } = useSelector((state) => state.auth);
     const { user, loading: profileloading } = useSelector((state) => state.profile);
      const dispatch=useDispatch();

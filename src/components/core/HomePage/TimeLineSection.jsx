@@ -48,8 +48,8 @@ const TimeLineSection=(  )=>{
                     {
                         timeline.map((element , index) =>{
                             return(
-                                <div >
-                                 <div className="flex flex-row gap-6" key={index}  >
+                                <div key={index} >
+                                 <div className="flex flex-row gap-6"  >
                                     <div className="w-[50px] h-[50px] flex items-center " >
                                         <img src={element.Logo} alt="Logo" />
 
@@ -60,7 +60,7 @@ const TimeLineSection=(  )=>{
                                      </div> 
                                  </div>
                                  {index !==3 && (
-                                  <div class="hidden lg:block  h-14 border-dotted border-r border-richblack-100 bg-richblack-400/0 w-[26px]">
+                                  <div className="hidden lg:block  h-14 border-dotted border-r border-richblack-100 bg-richblack-400/0 w-[26px]">
                                  </div>
                                  )
                                 }

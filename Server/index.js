@@ -29,10 +29,13 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "https://study-notion-yoj3-gilt.vercel.app"
-    ],
+    // origin: [
+    //   "http://localhost:3000",
+    //   "https://study-notion-yoj3-gilt.vercel.app",
+    //   "http://localhost:56990",
+    //   "http://localhost:3001",
+    // ],
+    origin: "*",
     credentials: true,
   })
 );

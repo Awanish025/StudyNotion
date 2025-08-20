@@ -1,7 +1,7 @@
 import React from "react";
  import IconButton from "./IconButton";
 
-const ConfirmationModal =( {modalData })=>{
+const ConfirmmationModal =( {modalData })=>{
    
     return (
     <div>
@@ -29,4 +29,4 @@ const ConfirmationModal =( {modalData })=>{
     </div>
   )
 }
-export default ConfirmationModal;
+export default ConfirmmationModal;
