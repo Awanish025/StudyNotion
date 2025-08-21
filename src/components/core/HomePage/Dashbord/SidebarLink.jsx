@@ -1,7 +1,7 @@
 
 import React from "react";
 import * as Icons from "react-icons/vsc"
-import { matchPath, NavLink, Route, useLocation } from "react-router-dom";
+import { matchPath, NavLink, useLocation } from "react-router-dom";
 
 const SidebarLink = ( {link,IconNames} ) => {
     const Icon=Icons[IconNames];
@@ -10,6 +10,10 @@ const SidebarLink = ( {link,IconNames} ) => {
     const matchRoute = (route) => {
         return matchPath({path:route}, location.pathname);
     }
+    
+  if (!Icon) {
+    console.error(`SidebarLink: missing icon "${IconNames}" for link:`, link);
+  }
     return (
        <NavLink
         to={link.path}

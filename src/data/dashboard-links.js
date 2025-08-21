@@ -36,17 +36,9 @@ export const sidebarLinks = [
   },
   {
     id: 6,
-   
-    name: "Cart",
+    name: "Your Cart",
     path: "/dashboard/cart",
     type: ACCOUNT_TYPE.STUDENT,
-    icon: "VscBookmark",
-  },
-  {
-     id: 7,
-    name: "Admin Panel",
-    path: "/dashboard/admin-panel",
-    type: ACCOUNT_TYPE.ADMIN,
     icon: "VscHistory",
   },
 ];
