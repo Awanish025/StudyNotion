@@ -42,7 +42,7 @@ const Sidebar = () => {
                     <div className="flex flex-col ">
                     <SidebarLink 
                     link={{ name: "Settings", path: "/dashboard/settings" }}
-                    IconNames={VscSettingsGear.name}
+                    IconNames="VscSettingsGear"
                     
                     />
                     <button onClick={ ()=>setConfirmationModal (
