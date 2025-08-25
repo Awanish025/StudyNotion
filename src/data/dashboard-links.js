@@ -25,7 +25,7 @@ export const sidebarLinks = [
     name: "Add Course",
     path: "/dashboard/add-course",
     type: ACCOUNT_TYPE.INSTRUCTOR,
-    icon: "VscAdd",
+    icon: "VscDiffAdded",
   },
   {
     id: 5,
