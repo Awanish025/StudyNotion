@@ -4,7 +4,6 @@ const router=express.Router();
 const{sendOTP,signUp,login,changedPassword}=require("../controller/Auth");
 
 const {auth}=require("../middelwares/auth");
-const{isDemo}=require("../middelwares/isDemo");
 const {resetPasswordToken,resetPassword}=require("../controller/ResetPassword");
 
 // routes for login signUp and authentication
@@ -24,7 +23,7 @@ router.post("/sendOtp",sendOTP);
 
 
 // router for changedPassword
-router.post("/changepassword",auth,isDemo,changedPassword);
+router.post("/changepassword",auth,changedPassword);
 
 
 

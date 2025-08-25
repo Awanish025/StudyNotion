@@ -48,7 +48,7 @@ const MyProfile = () => {
                 }} />
                 </div>
             </div>
-            <p className='text-richblack-400 text-sm font-medium'> {user?.additionalDetails?.about  ??  "Write Something about Yourself"}</p>
+            <p className='text-richblack-100 text-sm font-medium '> {user?.additionalDetails?.about  ??  "Write Something about Yourself"}</p>
         </div>
 
 
@@ -99,6 +99,9 @@ const MyProfile = () => {
         </div>
 
       </div>
+
+
+      
 
       </div>
      </div>

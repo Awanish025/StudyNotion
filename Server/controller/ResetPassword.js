@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const mailSender = require("../utils/mailSender");
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 
 exports.resetPasswordToken = async (req, res) => {
   try {
@@ -58,6 +59,7 @@ exports.resetPassword = async (req, res) => {
   try {
     // get data
     const { password, confirmPassword, token } = req.body;
+    console.log("Token received:", token);
     // validation
     if (password !== confirmPassword) {
       return res.json({

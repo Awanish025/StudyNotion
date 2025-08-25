@@ -15,6 +15,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render( 
     //used to create routes browser router
+    <React.StrictMode>
     <Provider store={store} > 
         {/* used to redux(state management) a centralise data */}
         <BrowserRouter> 
@@ -22,6 +23,7 @@ root.render(
         {/* <Toaster /> */}
         </BrowserRouter>
     </Provider>
+    </React.StrictMode>
      
      
     );

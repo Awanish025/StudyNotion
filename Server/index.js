@@ -31,11 +31,11 @@ app.use(
   cors({
     // origin: [
     //   "http://localhost:3000",
-    //   "https://study-notion-yoj3-gilt.vercel.app",
-    //   "http://localhost:56990",
-    //   "http://localhost:3001",
+      
+      
     // ],
-    origin: "*",
+    origin:"http://localhost:3000",
+   
     credentials: true,
   })
 );

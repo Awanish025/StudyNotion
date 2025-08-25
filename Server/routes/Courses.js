@@ -4,7 +4,7 @@ const router=express.Router();
 
 const {createCourse,getAllCourses,getCoursesDetails}=require("../controller/Courses");
 const {auth,isStudent,isAdmin,isInstructor}=require("../middelwares/auth");
-const {isDemo}=require("../middelwares/isDemo");
+
 
 const {createSection,updateSection, deleteSection}=require("../controller/Sections");
 const {createSubSection,updateSubSection,deleteSubSection}=require("../controller/subSections");

@@ -256,77 +256,160 @@
         }
     }
 
-    exports.changedPassword=async (req,res)=>{
-    try{
+//     exports.changedPassword=async (req,res)=>{
+//     try{
 
         
-    const {email,oldPassword, newPassword,confirmNewPassword}=req.body;
+//     const {oldPassword, newPassword,confirmNewPassword}=req.body;
 
-    if(!oldPassword||!newPassword ||!confirmNewPassword){
-        return res.status(403).json({
-            success:false,
-            message:'all fields are required'
-        })
+//     if(!oldPassword||!newPassword ||!confirmNewPassword){
+//         return res.status(403).json({
+//             success:false,
+//             message:'all fields are required'
+//         })
+//     }
+
+//    // const User=await user.findOne({email});
+//    const User=await user.findById(req.User.id)
+//    console.log("User found for password change:", User);
+
+//     if (!User) {
+//         return res.status(404).json({
+//             success: false,
+//             message: "User not found.",
+//         });
+//     }
+//     //  Check if oldPassword matches the existing password
+//     const isPasswordValid = await bcrypt.compare(oldPassword, User.password);
+//     if (!isPasswordValid) {
+//         return res.status(401).json({
+//             success: false,
+//             message: "Old password is incorrect.",
+//         });
+//     }
+//     //  Ensure newPassword matches confirmNewPassword
+//     if (newPassword !== confirmNewPassword) {
+//         return res.status(400).json({
+//             success: false,
+//             message: "New password and confirm new password do not match.",
+//         });
+//     }
+
+
+//     if(bcrypt.compare(newPassword,User.password)){
+//         return res.status(401).json({
+//             success:false,
+//             message:' New password must be different from  previous password',
+//         })
+//     }
+//     //Hash the new password
+//     const hashedpassword=await bcrypt.hash(newPassword,10);
+//     //  Update the password in the database
+//     User.password=hashedpassword;
+//     await User.save();
+
+//     const title = "Password Updated Successfully";
+
+//     const body = `<p>Hi ${User.name},</p>
+//             <p>Your password has been successfully updated. If you did not make this change, please contact our support team immediately.</p>
+//             <p>Best regards,<br>TutorVerse</p>`;
+//     await mailSender(User.email, title, body);
+
+
+//     return res.status(200).json({
+//         success: true,
+//         message: "Password changed successfully.",
+//     });
+
+//     }
+
+//     catch(error){
+//     console.log(error);
+//     return res.status(500).json({
+//         success:false,
+//         message:"Something went wrong. Please try again."
+//     });
+//     }
+
+
+//     }
+exports.changedPassword = async (req, res) => {
+  try {
+    // 1. Fetch user from DB
+    const userDetails = await user.findById(req.User.id);
+    if (!userDetails) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
     }
 
-    const User=await user.findOne({email});
-    if (!User) {
-        return res.status(404).json({
-            success: false,
-            message: "User not found.",
-        });
+    // 2. Extract fields
+    const { oldPassword, newPassword, confirmNewPassword } = req.body;
+    if (!oldPassword || !newPassword || !confirmNewPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required",
+      });
     }
-    //  Check if oldPassword matches the existing password
-    const isPasswordValid = await bcrypt.compare(oldPassword, User.password);
-    if (!isPasswordValid) {
-        return res.status(401).json({
-            success: false,
-            message: "Old password is incorrect.",
-        });
+
+    // 3. Check old password
+    const isPasswordMatch = await bcrypt.compare(oldPassword, userDetails.password);
+    if (!isPasswordMatch) {
+      return res.status(401).json({
+        success: false,
+        message: "Old password is incorrect",
+      });
     }
-    //  Ensure newPassword matches confirmNewPassword
+
+    // 4. Check confirmNewPassword
     if (newPassword !== confirmNewPassword) {
-        return res.status(400).json({
-            success: false,
-            message: "New password and confirm new password do not match.",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "New password and confirm new password do not match",
+      });
     }
 
-
-    if(bcrypt.compare(newPassword,User.password)){
-        return res.status(401).json({
-            success:false,
-            message:' New password must be different from  previous password',
-        })
+    // 5. Ensure new password is not same as old password
+    const isSamePassword = await bcrypt.compare(newPassword, userDetails.password);
+    if (isSamePassword) {
+      return res.status(400).json({
+        success: false,
+        message: "New password must be different from the old password",
+      });
     }
-    //Hash the new password
-    const hashedpassword=await bcrypt.hash(newPassword,10);
-    //  Update the password in the database
-    User.password=hashedpassword;
-    await user.save();
 
-    const title = "Password Updated Successfully";
+    // 6. Encrypt new password
+    const encryptedPassword = await bcrypt.hash(newPassword, 10);
+    userDetails.password = encryptedPassword;
+    await userDetails.save();
 
-    const body = `<p>Hi ${User.name},</p>
-            <p>Your password has been successfully updated. If you did not make this change, please contact our support team immediately.</p>
-            <p>Best regards,<br>TutorVerse</p>`;
-    await mailSender(email, title, body);
+    // 7. Send email
+    try {
+      await mailSender(
+        userDetails.email,
+        "Password Updated Successfully",
+        `<p>Hi ${userDetails.firstName},</p>
+         <p>Your password has been successfully updated. If this wasn't you, please contact support immediately.</p>
+         <p>Best regards,<br>TutorVerse</p>`
+      );
+    } catch (error) {
+      console.error("Error sending email:", error);
+      // Don't block response on email error
+    }
 
-
+    // 8. Response
     return res.status(200).json({
-        success: true,
-        message: "Password changed successfully.",
+      success: true,
+      message: "Password updated successfully",
     });
 
-    }
-
-    catch(error){
-    console.log(error);
+  } catch (error) {
+    console.error("Error occurred while updating password:", error);
     return res.status(500).json({
-        success:false,
-        message:"Something went wrong. Please try again."
+      success: false,
+      message: "Something went wrong while updating password",
+      error: error.message,
     });
-    }
-
-
-    }
+  }
+};

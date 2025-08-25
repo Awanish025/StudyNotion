@@ -15,7 +15,7 @@ exports.auth = async (req, res, next) => {
       (authHeader && authHeader.startsWith("Bearer ")
     ? authHeader.split(" ")[1]
     : undefined);
-
+   console.log("Extracted token:", token);
     // const token = req.cookies.token 
     //                     || req.body.token 
     //                     || req.header("Authorization").replace("Bearer ", "");
