@@ -10,8 +10,7 @@ StudyNotion is a full-featured EdTech platform designed to provide a seamless le
 - 💳 Secure Payments using Razorpay
 - 🧾 Enrollments & Order Tracking
 - 📊 Admin dashboard for user and course analytics
-- 🌙 Light/Dark Mode toggle
-- 📱 Fully Responsive UI
+ - 📱 Fully Responsive UI
 
 ## 🚀 Tech Stack
 
