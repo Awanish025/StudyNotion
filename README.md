@@ -38,11 +38,11 @@ git clone https://github.com/Awanish025/StudyNotion.git
 cd StudyNotion
 
 # Install backend dependencies
-cd backend
+cd Server
 npm install
 
 # Install frontend dependencies
-cd ../frontend
+cd ..
 npm install
 
 # Create .env files in backend and frontend as per `.env.example`
