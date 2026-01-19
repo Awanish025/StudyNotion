@@ -1,5 +1,5 @@
 # StudyNotion - EdTech Platform
-:rocket: [Link to website][http://study-notion-yoj3-gilt.vercel.app/]
+:rocket: [Link to website][https://study-notion-yoj3-gilt.vercel.app/]
 
 
 ![Main Page](/images/mainpage.png)
