@@ -103,7 +103,7 @@ Below is a high-level diagram that illustrates the architecture of the StudyNoti
 
 The StudyNotion platform's API is designed following the REST architectural style. The API is implemented using Node.js and Express.js. It uses JSON for data exchange and follows standard HTTP request methods such as GET, POST, PUT, and DELETE.
 
-For detailed API documentation and endpoints, refer to the [API Documentation](/api-docs).
+For detailed API documentation and endpoints, refer to the [API Documentation](https://documenter.getpostman.com/view/39104621/2sBXVigpzC).
 
 ## Installation
 
