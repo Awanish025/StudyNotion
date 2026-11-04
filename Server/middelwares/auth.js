@@ -5,8 +5,8 @@ const User = require("../models/user");
 // auth
 exports.auth = async (req, res, next) => {
   const authHeader = req.header("Authorization");
-   console.log("Authorization header:", req.header("Authorization"));
-   console.log("Authorization header:", authHeader);
+  //  console.log("Authorization header:", req.header("Authorization"));
+  //  console.log("Authorization header:", authHeader);
   try {
     // extract token
     const token =
@@ -31,6 +31,7 @@ exports.auth = async (req, res, next) => {
     try {
       const decode = jwt.verify(token, process.env.JWT_SECRET);
       console.log(decode);
+      req.user = decode;
       req.User = decode;// add user in decode payload
     } catch (error) {
       return res.status(401).json({

@@ -20,9 +20,9 @@ const Sidebar = () => {
     }
 
     return (
-        <div className=' text-white bg-richblack-800'>
-            <div className='hidden min-w-[222px] flex-col border-r-[1px] border-r-richblack-700 lg:flex
-        h-[calc[100vh-3.5rem)] bg-richblack-800 py-10'>
+        <div className='h-full text-white bg-richblack-800'>
+            <div className="hidden min-w-[222px] flex-col border-r border-r-richblack-700 lg:flex 
+        h-full bg-richblack-800 py-10 overflow-y-auto">
                 <div className="flex flex-col">
                     {sidebarLinks.map((link) => {
                         if (link.type && link.type !== user?.accountType) {

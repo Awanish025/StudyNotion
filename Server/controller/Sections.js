@@ -1,6 +1,5 @@
-const Section=require("../models/Section");
-const Course=require("../models/Course");
-
+const Section = require("../models/Section");
+const Course = require("../models/Course");
 
 exports.createSection = async (req, res) => {
   try {
@@ -17,88 +16,126 @@ exports.createSection = async (req, res) => {
 
     // create new section
     const newSection = await Section.create({
-      sectionName:sectionName,
+      sectionName: sectionName,
     });
+
     // push new section in courses with section obj id
     const updatedCourse = await Course.findByIdAndUpdate(
-       {_id:courseId} ,
+      courseId,
       {
         $push: {
           courseContent: newSection._id,
         },
       },
       { new: true }
-    ).populate("courseContent").exec();
+    )
+      .populate({
+        path: "courseContent",
+        populate: {
+          path: "subSection",
+        },
+      })
+      .exec();
 
-    console.log(updatedCourse);
-    // in which way i use populate here so here we get section and subsection's details rather than obj id
-
-    // return response
     return res.status(200).json({
       success: true,
-      message: "section created sucessfully",
+      message: "Section created successfully",
+      data: updatedCourse,
       updatedCourse,
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "section creation faild",
+      message: "Section creation failed",
+      error: error.message,
     });
   }
 };
 
-
 exports.updateSection = async (req, res) => {
   try {
-    // fetch
-    const { sectionName, sectionId } = req.body;
-    // validate
+    const { sectionName, sectionId, courseId } = req.body;
     if (!sectionName || !sectionId) {
       return res.status(401).json({
         success: false,
         message: "All fields are required",
       });
     }
-    const updated = await Section.findByIdAndUpdate(
+
+    await Section.findByIdAndUpdate(
       sectionId,
       { sectionName },
       { new: true }
     );
 
-    // return response
+    let updatedCourse = null;
+    if (courseId) {
+      updatedCourse = await Course.findById(courseId)
+        .populate({
+          path: "courseContent",
+          populate: {
+            path: "subSection",
+          },
+        })
+        .exec();
+    }
+
     return res.status(200).json({
       success: true,
-      message: "section updated sucessfully",
-      //updated
+      message: "Section updated successfully",
+      data: updatedCourse,
+      updatedCourse,
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "section updation faild",
+      message: "Section update failed",
+      error: error.message,
     });
   }
 };
 
-
 exports.deleteSection = async (req, res) => {
   try {
-    //const {sectionId}=req.body;
-    // let that we are sending id in params
-    const { sectionId } = req.params;
+    const sectionId = req.body.sectionId || req.params.sectionId;
+    const courseId = req.body.courseId;
+
+    if (!sectionId) {
+      return res.status(400).json({
+        success: false,
+        message: "Section ID is required",
+      });
+    }
 
     await Section.findByIdAndDelete(sectionId);
 
-    //return response
+    let updatedCourse = null;
+    if (courseId) {
+      await Course.findByIdAndUpdate(courseId, {
+        $pull: { courseContent: sectionId },
+      });
+
+      updatedCourse = await Course.findById(courseId)
+        .populate({
+          path: "courseContent",
+          populate: {
+            path: "subSection",
+          },
+        })
+        .exec();
+    }
+
     return res.status(200).json({
       success: true,
-      message: "section deleted sucessfully",
-      //updated
+      message: "Section deleted successfully",
+      data: updatedCourse,
+      updatedCourse,
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "section deletion failed",
-      //updated
+      message: "Section deletion failed",
+      error: error.message,
     });
   }
 };

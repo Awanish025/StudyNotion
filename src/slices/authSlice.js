@@ -1,27 +1,36 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialstate ={
-    // if item alredy present take it from local storage otherwise mark null
-    signupData:null,
-    loading : false,
-    token: localStorage.getItem("token" ) ? JSON.parse(localStorage.getItem("token")) : null 
-}
+const getTokenFromLocalStorage = () => {
+  const token = localStorage.getItem("token");
+  if (!token) return null;
+  try {
+    return JSON.parse(token);
+  } catch (e) {
+    return token;
+  }
+};
 
-const authSlice = createSlice ({
-    name:"auth",
-    initialState:initialstate,
-    reducers:{
-        setSignupData(state, value) {
-            state.signupData = value.payload;
-          },
-        setToken(state,value){
-            state.token=value.payload
-        },
-        setLoading (state,value){
-            state.loading = value.payload; 
-        },
-    }
-})
+const initialstate = {
+  signupData: null,
+  loading: false,
+  token: getTokenFromLocalStorage(),
+};
 
-export const {setToken,setLoading,setSignupData} = authSlice.actions;
+const authSlice = createSlice({
+  name: "auth",
+  initialState: initialstate,
+  reducers: {
+    setSignupData(state, value) {
+      state.signupData = value.payload;
+    },
+    setToken(state, value) {
+      state.token = value.payload;
+    },
+    setLoading(state, value) {
+      state.loading = value.payload;
+    },
+  },
+});
+
+export const { setToken, setLoading, setSignupData } = authSlice.actions;
 export default authSlice.reducer;

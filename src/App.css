@@ -3,10 +3,36 @@
 @tailwind components;
 @tailwind utilities;
 
-html , body {
-    overflow: auto;
+html,
+body {
+    background-color: #000814;
+    color: #F1F2FF;
+    min-height: 100%;
+    overflow-x: hidden;
+}
+
+#root {
+    min-height: 100vh;
+    background-color: #000814;
 }
 
 .bg_home  {
 background: url("../src/assets/Images/bghome.svg");
+}
+
+.form-style {
+    --tw-bg-opacity: 1;
+    --tw-text-opacity: 1;
+    --tw-shadow: 0 1px 0 0;
+    --tw-shadow-colored: 0 1px 0 0 var(--tw-shadow-color);
+    --tw-shadow-color: hsla(0,0%,100%,.5);
+    --tw-shadow: var(--tw-shadow-colored);
+    background-color: rgb(44 51 63/var(--tw-bg-opacity));
+    border-radius: .5rem;
+    box-shadow: 0 0 #0000,0 0 #0000,var(--tw-shadow);
+    box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);
+    color: rgb(241 242 255/var(--tw-text-opacity));
+    font-size: 16px;
+    line-height: 24px;
+    padding: .75rem;
 }
