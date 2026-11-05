@@ -67,5 +67,11 @@
   },
   "devDependencies": {
     "tailwindcss": "^3.2.7"
+  },
+  "overrides": {
+    "video-react": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    }
   }
 }
