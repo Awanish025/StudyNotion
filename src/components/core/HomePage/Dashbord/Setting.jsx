@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 import {updateAdditionalDetails,updatePassword, updateProfilePic,deleteAccount } from "../../../../services/operations/profileAPI";
 import {AiOutlineEyeInvisible} from 'react-icons/ai'
 import {AiOutlineEye} from 'react-icons/ai'
-import EnrolledCourses from "./EnrolledCourses";
 const Setting = () => {
     const dispatch=useDispatch();
     const navigate=useNavigate();

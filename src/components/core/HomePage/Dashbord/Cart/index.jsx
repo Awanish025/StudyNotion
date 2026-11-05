@@ -6,7 +6,7 @@ import RenderCartCourses from "./RenderCartCourses"
 import RenderTotalAmount from "./RenderTotalAmount"
 
 export default function Cart() {
-  const { totalItems, cart } = useSelector((state) => state.cart)
+  const { cart } = useSelector((state) => state.cart)
 
   return (
     <div className="mx-auto w-11/12 max-w-[1000px] py-10">
