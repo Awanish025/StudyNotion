@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   createSection,
   updateSection,
-} from "../../../../../../services/operation/courseDetailsApi";
+} from "../../../../../../services/operations/courseDetailsAPI";
 import { setCourses, setEditCourse, setStep } from "../../../../../../slices/coursesSlice";
 import IconBtn from "../../../../../common/IconButton";
 import NestedView from "./NestedView";
@@ -60,17 +60,18 @@ export default function CourseBuilderForm() {
     setValue("sectionName", sectionName);
   };
 
- const goToNext = () => {
-  if ((course?.courseContent || []).length === 0) {
-    toast.error("Please add at least one section");
-    return;
-  }
-  if ((course?.courseContent || []).some(section => (section.subSection || []).length === 0)) {
-    toast.error("Please add at least one lecture in each section");
-    return;
-  }
-  dispatch(setStep(3));
-};
+  const goToNext = () => {
+    const content = course?.courseContent || [];
+    if (content.length === 0) {
+      toast.error("Please add at least one section");
+      return;
+    }
+    if (content.some((section) => (section.subSection || []).length === 0)) {
+      toast.error("Please add at least one lecture in each section (or delete empty sections)");
+      return;
+    }
+    dispatch(setStep(3));
+  };
 
   const goBack = () => {
     dispatch(setStep(1));
@@ -135,7 +136,7 @@ export default function CourseBuilderForm() {
           Back
         </button>
 
-        <IconBtn disabled={loading} text="Next" onclick={goToNext}>
+        <IconBtn disabled={loading} text="Next" onClick={goToNext} onclick={goToNext}>
           <MdNavigateNext />
         </IconBtn>
       </div>

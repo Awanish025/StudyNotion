@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
-import { editCourseDetails } from "../../../../../../services/operation/courseDetailsApi"
+import { editCourseDetails } from "../../../../../../services/operations/courseDetailsAPI"
 import { resetCoursesState, setStep } from "../../../../../../slices/coursesSlice"
 import { COURSE_STATUS } from "../../../../../../utils/constants"
 import IconBtn from "../../../../../common/IconButton"
@@ -45,7 +45,7 @@ export default function PublishCourse() {
       return
     }
     const formData = new FormData()
-    formData.append("courseId", course._id)
+    formData.append("courseId", course?._id)
     const courseStatus = getValues("public")
       ? COURSE_STATUS.PUBLISHED
       : COURSE_STATUS.DRAFT

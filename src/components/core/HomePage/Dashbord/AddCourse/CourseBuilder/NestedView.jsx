@@ -6,14 +6,14 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { RxDropdownMenu } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 
-import { deleteSection, deleteSubSection } from "../../../../../../services/operation/courseDetailsApi";
+import { deleteSection, deleteSubSection } from "../../../../../../services/operations/courseDetailsAPI";
 import { setCourses } from "../../../../../../slices/coursesSlice"; // updated import
 import ConfirmationModal from "../../../../../common/ConfirmmationModal";
 import SubSectionModal from "./SubSectionModal";
 
 export default function NestedView({ handleChangeEditSectionName }) {
   const coursesState = useSelector((state) => state.courses);
-  const course = coursesState.courses || { courseContent: [] }; // safely get course
+  const course = coursesState?.courses || coursesState?.course || { courseContent: [] };
   const { token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
@@ -31,7 +31,7 @@ export default function NestedView({ handleChangeEditSectionName }) {
   const handleDeleteSubSection = async (subSectionId, sectionId) => {
     const result = await deleteSubSection({ subSectionId, sectionId }, token);
     if (result) {
-      const updatedCourseContent = course.courseContent.map((section) =>
+      const updatedCourseContent = (course?.courseContent || []).map((section) =>
         section._id === sectionId ? result : section
       );
       const updatedCourse = { ...course, courseContent: updatedCourseContent };
@@ -74,7 +74,7 @@ export default function NestedView({ handleChangeEditSectionName }) {
             </summary>
 
             <div className="px-6 pb-4">
-              {section.subSection.map((data) => (
+              {(section?.subSection || []).map((data) => (
                 <div
                   key={data._id}
                   onClick={() => setViewSubSection(data)}

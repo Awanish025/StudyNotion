@@ -7,7 +7,7 @@ import { IoEyeOff } from "react-icons/io5";
 import {  useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { sendOtp } from "../services/operation/authAPI";
+import { sendOtp } from "../services/operations/authAPI";
 import { setSignupData } from "../slices/authSlice";
 
 

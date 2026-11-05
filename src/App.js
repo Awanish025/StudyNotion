@@ -21,6 +21,7 @@ import EnrolledCourses from "./components/core/HomePage/Dashbord/EnrolledCourses
 import Cart from "./components/core/HomePage/Dashbord/Cart/index";
 import MyCourses from "./components/core/HomePage/Dashbord/MyCourses/MyCourses";
 import AddCourse from "./components/core/HomePage/Dashbord/AddCourse";
+import EditCourse from "./components/core/HomePage/Dashbord/EditCourse";
 import Instructor from "./components/core/HomePage/Dashbord/InstructorDashboard/Instructor";
 import Catalog from "./Pages/Catalog";
 import CourseDetails from "./Pages/CourseDetails";
@@ -69,9 +70,10 @@ const App = () => {
         >
           <Route path="/dashboard/my-profile" element={<MyProfile />} />
           <Route path="/dashboard/settings" element={<Setting />} />
+          <Route path="dashboard/cart" element={<Cart />} />
+          <Route path="dashbord/cart" element={<Cart />} />
           {user?.accountType === ACCOUNT_TYPE.STUDENT && (
             <>
-              <Route path="dashboard/cart" element={<Cart />} />
               <Route path="dashboard/enrolled-courses" element={<EnrolledCourses />} />
             </>
           )}
@@ -80,6 +82,7 @@ const App = () => {
               <Route path="dashboard/instructor" element={<Instructor />} />
               <Route path="dashboard/add-course" element={<AddCourse />} />
               <Route path="dashboard/my-courses" element={<MyCourses />} />
+              <Route path="dashboard/edit-course/:courseId" element={<EditCourse />} />
             </>
           )}
         </Route>

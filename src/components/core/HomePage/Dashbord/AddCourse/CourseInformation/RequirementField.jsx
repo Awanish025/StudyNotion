@@ -14,10 +14,20 @@ export default function RequirementsField({
   const [requirementsList, setRequirementsList] = useState([])
 
   useEffect(() => {
-    if (editCourse) {
-      setRequirementsList(course?.instructions)
+    if (editCourse && course?.instructions) {
+      let initialRequirements = []
+      if (Array.isArray(course.instructions)) {
+        initialRequirements = course.instructions
+      } else {
+        try {
+          initialRequirements = JSON.parse(course.instructions)
+        } catch (e) {
+          initialRequirements = [course.instructions]
+        }
+      }
+      setRequirementsList(initialRequirements)
     }
-    register(name, { required: true, validate: (value) => value.length > 0 })
+    register(name, { required: true, validate: (value) => (value || []).length > 0 })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import {updateAdditionalDetails,updatePassword, updateProfilePic,deleteAccount } from "../../../../services/operation/profileAPI";
+import {updateAdditionalDetails,updatePassword, updateProfilePic,deleteAccount } from "../../../../services/operations/profileAPI";
 import {AiOutlineEyeInvisible} from 'react-icons/ai'
 import {AiOutlineEye} from 'react-icons/ai'
 import EnrolledCourses from "./EnrolledCourses";

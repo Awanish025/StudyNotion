@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 import {
   createSubSection,
   updateSubSection,
-} from "../../../../../../services/operation/courseDetailsApi"
+} from "../../../../../../services/operations/courseDetailsAPI"
 import { setCourses } from "../../../../../../slices/coursesSlice"
 import IconBtn from "../../../../../common/IconButton"
 import Upload from "../Upload"
@@ -34,7 +34,8 @@ export default function SubSectionModal({
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
   const { token } = useSelector((state) => state.auth)
-  const { course } = useSelector((state) => state.course)
+  const coursesState = useSelector((state) => state.courses || state.course || {})
+  const course = coursesState.course || coursesState.courses || {}
 
   useEffect(() => {
     if (view || edit) {
@@ -81,7 +82,7 @@ export default function SubSectionModal({
     if (result) {
       // console.log("result", result)
       // update the structure of course
-      const updatedCourseContent = course.courseContent.map((section) =>
+      const updatedCourseContent = (course?.courseContent || []).map((section) =>
         section._id === modalData.sectionId ? result : section
       )
       const updatedCourse = { ...course, courseContent: updatedCourseContent }
@@ -113,7 +114,7 @@ export default function SubSectionModal({
     const result = await createSubSection(formData, token)
     if (result) {
       // update the structure of course
-      const updatedCourseContent = course.courseContent.map((section) =>
+      const updatedCourseContent = (course?.courseContent || []).map((section) =>
         section._id === modalData ? result : section
       )
       const updatedCourse = { ...course, courseContent: updatedCourseContent }

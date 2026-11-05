@@ -36,3 +36,46 @@ background: url("../src/assets/Images/bghome.svg");
     line-height: 24px;
     padding: .75rem;
 }
+
+.yellowButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    background-color: #FFD60A;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    color: #000814;
+    transition: all 0.2s ease-in-out;
+    border: none;
+    box-shadow: 2px 2px 0px 0px rgba(255, 255, 255, 0.18);
+}
+
+.yellowButton:hover {
+    transform: scale(0.98);
+    box-shadow: none;
+    background-color: #FFDF00;
+}
+
+.blackButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    background-color: #161D29;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    color: #F1F2FF;
+    transition: all 0.2s ease-in-out;
+    border: 1px solid #2C333F;
+}
+
+.blackButton:hover {
+    transform: scale(0.98);
+    background-color: #000814;
+    border-color: #424854;
+}

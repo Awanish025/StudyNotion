@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table"
 
-// import { setCourse, setEditCourse } from "../../../../slices/courseSlice"
+// import { setCourse, setEditCourse } from "../../../../../slices/coursesSlice"
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css"
 import { useState } from "react"
 import { FaCheck } from "react-icons/fa"
@@ -14,7 +14,7 @@ import { formatDate } from "../../../../../services/formatDate"
 import {
   deleteCourse,
   fetchInstructorCourses,
-} from "../../../../../services/operation/courseDetailsApi"
+} from "../../../../../services/operations/courseDetailsAPI"
 import { COURSE_STATUS } from "../../../../../utils/constants"
 import ConfirmationModal from "../../../../common/ConfirmmationModal"
 
@@ -25,6 +25,23 @@ export default function CoursesTable({ courses, setCourses }) {
   const [loading, setLoading] = useState(false)
   const [confirmationModal, setConfirmationModal] = useState(null)
   const TRUNCATE_LENGTH = 30
+
+  const getDuration = (course) => {
+    if (course?.totalDuration) return course.totalDuration
+    let totalSeconds = 0
+    ;(course?.courseContent || []).forEach((sec) => {
+      ;(sec?.subSection || []).forEach((sub) => {
+        const dur = parseFloat(sub.timeDureation || sub.timeDuration || 0)
+        totalSeconds += isNaN(dur) ? 0 : dur
+      })
+    })
+    const hours = Math.floor(totalSeconds / 3600)
+    const minutes = Math.floor((totalSeconds % 3600) / 60)
+    const seconds = Math.floor((totalSeconds % 3600) % 60)
+    if (hours > 0) return `${hours}h ${minutes}m`
+    if (minutes > 0) return `${minutes}m ${seconds}s`
+    return `${seconds}s`
+  }
 
   const handleCourseDelete = async (courseId) => {
     setLoading(true)
@@ -110,7 +127,7 @@ export default function CoursesTable({ courses, setCourses }) {
                   </div>
                 </Td>
                 <Td className="text-sm font-medium text-richblack-100">
-                  2hr 30min
+                  {getDuration(course)}
                 </Td>
                 <Td className="text-sm font-medium text-richblack-100">
                   ₹{course.price}

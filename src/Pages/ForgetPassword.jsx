@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { forgetPasswordToken } from "../services/operation/authAPI";
+import { forgetPasswordToken } from "../services/operations/authAPI";
 
 
 const ForgetPassword =()=>{

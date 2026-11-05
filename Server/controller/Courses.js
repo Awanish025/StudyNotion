@@ -46,17 +46,43 @@ exports.createCourse = async (req, res) => {
 
     const thumbnailImage = await uploadImageToCloudinary(thumbnail, process.env.FOLDER_NAME);
 
+    let parsedTag = [];
+    if (tag) {
+      if (Array.isArray(tag)) {
+        parsedTag = tag;
+      } else {
+        try {
+          parsedTag = JSON.parse(tag);
+        } catch (e) {
+          parsedTag = typeof tag === "string" ? tag.split(",").map((t) => t.trim()) : [tag];
+        }
+      }
+    }
+
+    let parsedInstructions = [];
+    if (instructions) {
+      if (Array.isArray(instructions)) {
+        parsedInstructions = instructions;
+      } else {
+        try {
+          parsedInstructions = JSON.parse(instructions);
+        } catch (e) {
+          parsedInstructions = typeof instructions === "string" ? [instructions] : [];
+        }
+      }
+    }
+
     const newCourse = await Course.create({
       courseName,
       courseDescription,
       instructor: instructorDetails._id,
       whatYouWillLearn,
       price,
-      tag: Array.isArray(tag) ? tag : JSON.parse(tag || "[]"),
+      tag: parsedTag,
       category: categoryDetails._id,
       thumbnail: thumbnailImage.secure_url,
       status: status,
-      instructions: instructions ? (Array.isArray(instructions) ? instructions : JSON.parse(instructions || "[]")) : [],
+      instructions: parsedInstructions,
     });
 
     await User.findByIdAndUpdate(
@@ -211,10 +237,25 @@ exports.getCoursesDetails = async (req, res) => {
       });
     }
 
+    let totalDurationInSeconds = 0;
+    (courseDetails.courseContent || []).forEach((content) => {
+      (content.subSection || []).forEach((subSection) => {
+        const timeDurationInSeconds = parseInt(subSection.timeDuration || subSection.timeDureation || 0);
+        totalDurationInSeconds += isNaN(timeDurationInSeconds) ? 0 : timeDurationInSeconds;
+      });
+    });
+    const totalDuration = convertSecondsToDuration(totalDurationInSeconds);
+
+    const courseObj = courseDetails.toObject ? courseDetails.toObject() : { ...courseDetails };
+    courseObj.studentsEnrolled = courseObj.studentEnrolled || courseObj.studentsEnrolled || courseObj.studentsEnroled || [];
+
     return res.status(200).json({
       success: true,
       message: "Course details fetched successfully",
-      data: courseDetails,
+      data: {
+        courseDetails: courseObj,
+        totalDuration,
+      },
     });
   } catch (error) {
     console.error("GET COURSE DETAILS ERROR:", error);
@@ -249,10 +290,15 @@ exports.getFullCourseDetails = async (req, res) => {
       })
       .exec();
 
-    let courseProgressCount = await CourseProgress.findOne({
-      courseID: courseId,
-      userId: userId,
-    });
+    let courseProgressCount = null;
+    try {
+      courseProgressCount = await CourseProgress.findOne({
+        courseID: courseId,
+        userId: userId,
+      });
+    } catch (err) {
+      console.log("No course progress found:", err.message);
+    }
 
     if (!courseDetails) {
       return res.status(404).json({
@@ -262,8 +308,8 @@ exports.getFullCourseDetails = async (req, res) => {
     }
 
     let totalDurationInSeconds = 0;
-    courseDetails.courseContent.forEach((content) => {
-      content.subSection.forEach((subSection) => {
+    (courseDetails.courseContent || []).forEach((content) => {
+      (content.subSection || []).forEach((subSection) => {
         const timeDurationInSeconds = parseInt(subSection.timeDuration || subSection.timeDureation || 0);
         totalDurationInSeconds += isNaN(timeDurationInSeconds) ? 0 : timeDurationInSeconds;
       });
@@ -271,10 +317,13 @@ exports.getFullCourseDetails = async (req, res) => {
 
     const totalDuration = convertSecondsToDuration(totalDurationInSeconds);
 
+    const courseObj = courseDetails.toObject ? courseDetails.toObject() : { ...courseDetails };
+    courseObj.studentsEnrolled = courseObj.studentEnrolled || courseObj.studentsEnrolled || courseObj.studentsEnroled || [];
+
     return res.status(200).json({
       success: true,
       data: {
-        courseDetails,
+        courseDetails: courseObj,
         totalDuration,
         completedVideos: courseProgressCount?.completedVideos ? courseProgressCount.completedVideos : [],
       },
@@ -293,11 +342,31 @@ exports.getInstructorCourses = async (req, res) => {
 
     const instructorCourses = await Course.find({
       instructor: instructorId,
-    }).sort({ createdAt: -1 });
+    })
+      .populate({
+        path: "courseContent",
+        populate: {
+          path: "subSection",
+        },
+      })
+      .sort({ createdAt: -1 });
+
+    const coursesWithDuration = instructorCourses.map((course) => {
+      const courseObj = course.toObject();
+      let totalDurationInSeconds = 0;
+      (courseObj.courseContent || []).forEach((section) => {
+        (section.subSection || []).forEach((sub) => {
+          const duration = parseFloat(sub.timeDureation || sub.timeDuration || 0);
+          totalDurationInSeconds += isNaN(duration) ? 0 : duration;
+        });
+      });
+      courseObj.totalDuration = convertSecondsToDuration(totalDurationInSeconds);
+      return courseObj;
+    });
 
     res.status(200).json({
       success: true,
-      data: instructorCourses,
+      data: coursesWithDuration,
     });
   } catch (error) {
     console.error("GET INSTRUCTOR COURSES ERROR:", error);

@@ -3,7 +3,7 @@ import loginImg from "../assets/Images/login.webp"
 import frameImg from "../assets/Images/frame.png"
 import { IoEye } from "react-icons/io5";
 import { IoEyeOff } from "react-icons/io5";
-import { login } from "../services/operation/authAPI";
+import { login } from "../services/operations/authAPI";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import OTPInput from "react-otp-input";
-import { sendOtp, signUp } from "../services/operation/authAPI";
+import { sendOtp, signUp } from "../services/operations/authAPI";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";

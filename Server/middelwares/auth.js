@@ -4,65 +4,65 @@ const User = require("../models/user");
 
 // auth
 exports.auth = async (req, res, next) => {
-  const authHeader = req.header("Authorization");
-  //  console.log("Authorization header:", req.header("Authorization"));
-  //  console.log("Authorization header:", authHeader);
   try {
-    // extract token
-    const token =
-      req.cookies.token ||
-      req.body.token ||
-      (authHeader && authHeader.startsWith("Bearer ")
-    ? authHeader.split(" ")[1]
-    : undefined);
-   console.log("Extracted token:", token);
-    // const token = req.cookies.token 
-    //                     || req.body.token 
-    //                     || req.header("Authorization").replace("Bearer ", "");
+    const authHeader = req.header("Authorization");
+    let token =
+      req.cookies?.token ||
+      req.body?.token ||
+      (authHeader && authHeader.replace(/^Bearer\s+/i, ""));
+
+    if (token && typeof token === "string") {
+      token = token.replace(/^"(.*)"$/, "$1").trim();
+    }
 
     if (!token) {
       return res.status(401).json({
         success: false,
-        message: "token not found",
+        message: "Token not found",
       });
     }
 
     // token verification
     try {
       const decode = jwt.verify(token, process.env.JWT_SECRET);
-      console.log(decode);
       req.user = decode;
-      req.User = decode;// add user in decode payload
+      req.User = decode;
+      next();
     } catch (error) {
+      console.error("JWT ERROR:", error.name, error.message);
       return res.status(401).json({
         success: false,
-        message: "token is invalid",
+        message:
+          error.name === "TokenExpiredError"
+            ? "Token expired, please log in again"
+            : "Token is invalid",
+        error: error.message,
       });
     }
-    next();
   } catch (error) {
+    console.error("AUTH MIDDLEWARE ERROR:", error);
     return res.status(401).json({
       success: false,
-      message: "something went wrong during validating token",
+      message: "Something went wrong during validating token",
     });
   }
 };
 
-//isStudent
-
+// isStudent
 exports.isStudent = async (req, res, next) => {
   try {
-    if (req.User.accountType !== "Student") {
+    const accountType = req.user?.accountType || req.User?.accountType;
+    if (accountType !== "Student") {
       return res.status(401).json({
         success: false,
-        message: "this is protected route for student only",
+        message: "This is a protected route for Students only",
       });
     }
     next();
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "something went wrong during validating ",
+      message: "Something went wrong during validation",
     });
   }
 };
@@ -70,35 +70,37 @@ exports.isStudent = async (req, res, next) => {
 // isInstructor
 exports.isInstructor = async (req, res, next) => {
   try {
-    if (req.User.accountType !== "Instructor") {
+    const accountType = req.user?.accountType || req.User?.accountType;
+    if (accountType !== "Instructor") {
       return res.status(401).json({
         success: false,
-        message: "this is protected route for Instructor only",
+        message: "This is a protected route for Instructors only",
       });
     }
     next();
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "something went wrong during validating ",
+      message: "Something went wrong during validation",
     });
   }
 };
 
-//isAdmin
+// isAdmin
 exports.isAdmin = async (req, res, next) => {
   try {
-    if (req.User.accountType !== "Admin") {
+    const accountType = req.user?.accountType || req.User?.accountType;
+    if (accountType !== "Admin") {
       return res.status(401).json({
         success: false,
-        message: "this is protected route for Admin only",
+        message: "This is a protected route for Admins only",
       });
     }
     next();
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "something went wrong during validating ",
+      message: "Something went wrong during validation",
     });
   }
 };

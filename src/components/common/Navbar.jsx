@@ -119,7 +119,7 @@ const Navbar = () => {
           {
             // Cart Icon
             user && user?.accountType !== "Instructor" && (
-              <Link to={"/dashbord/cart"} className="relative text-richblack-5 ">
+              <Link to={"/dashboard/cart"} className="relative text-richblack-5 ">
                 <FaCartShopping className=" fill-richblack-25 w-7 h-7" />
                 {totalItems > 0 && (
                   <span className="absolute -top-3 -right-2 bg-pink-300 text-white text-xs px-2 py-1 rounded-full">

@@ -21,11 +21,20 @@ export default function ChipInput({
   const [chips, setChips] = useState([])
 
   useEffect(() => {
-    if (editCourse) {
-      // console.log(course)
-      setChips(course?.tag)
+    if (editCourse && course?.tag) {
+      let initialChips = []
+      if (Array.isArray(course.tag)) {
+        initialChips = course.tag
+      } else {
+        try {
+          initialChips = JSON.parse(course.tag)
+        } catch (e) {
+          initialChips = [course.tag]
+        }
+      }
+      setChips(initialChips)
     }
-    register(name, { required: true, validate: (value) => value.length > 0 })
+    register(name, { required: true, validate: (value) => (value || []).length > 0 })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
